@@ -1,0 +1,182 @@
+/* --- FONT IMPORTS (must stay above the Tailwind imports) --- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* ------------------------------------------------------------------
+   Design tokens
+   The original design system shipped a neutral near-black (#0B0B0A).
+   The palette below is shifted warm — a burnt-umber charcoal that reads
+   like aged phosphor glass / drafting paper under a desk lamp. Every
+   component in src/components/ds reads from these variables.
+   ------------------------------------------------------------------ */
+:root {
+  /* Surfaces */
+  --background: #151210;
+  --surface: #1c1814;
+  --surface-raised: #241f19;
+  --surface-sunken: #110f0c;
+  --border: #2c2620;
+  --border-strong: #41382e;
+
+  /* Ink */
+  --text-primary: #ede4d3;
+  --text-secondary: #a3998a;
+  --text-tertiary: #6f675c;
+
+  /* Accents */
+  --accent-amber: #ff5a36; /* ember — primary accent */
+  --accent-amber-hover: #ff7046;
+  --accent-amber-glow: rgba(255, 90, 54, 0.16);
+  --accent-amber-subtle: rgba(255, 90, 54, 0.08);
+  --accent-amber-soft: #ffb38a;
+  --accent-gold: #e4b04a; /* warm secondary — retro indicator lamps */
+  --accent-green: #7ad17f; /* phosphor */
+  --accent-cyan: #2dd4bf;
+  --error: #d14343;
+
+  /* BracketButton compatibility aliases */
+  --color-ember: var(--accent-amber);
+  --color-ember-light: var(--accent-amber-soft);
+  --color-ember-lightest: #ffe4d4;
+  --color-bg: var(--background);
+
+  /* Type */
+  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Geometry */
+  --radius-none: 0px;
+  --radius-hairline: 1px;
+  --radius-sm: 2px;
+  --radius-pill: 999px;
+  --border-width-hairline: 1px;
+  --border-width-heavy: 2px;
+  --bracket-size: 6px;
+  --crosshair-size: 10px;
+
+  /* Shadows / glows */
+  --shadow-flat: 0 1px 0 rgba(0, 0, 0, 0.4);
+  --shadow-panel: 0 0 0 1px var(--border);
+  --glow-amber-hover: inset 0 0 8px rgba(255, 90, 54, 0.15);
+  --glow-amber-focus-ring: 0 0 0 2px rgba(255, 90, 54, 0.35);
+  --glow-teal-live: 0 0 12px rgba(45, 212, 191, 0.5);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-ink font-sans;
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 90, 54, 0.06), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(228, 176, 74, 0.04), transparent 60%);
+    background-attachment: fixed;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+
+  ::selection {
+    background: rgba(255, 90, 54, 0.35);
+    color: var(--text-primary);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :focus-visible {
+    outline: none;
+  }
+}
+
+@layer components {
+  /* Terminal-style uppercase mono label */
+  .label-mono {
+    @apply font-mono text-[11px] uppercase tracking-label text-ink-2;
+  }
+
+  /* Editorial italic accent in headlines */
+  .serif-accent {
+    @apply font-serif italic font-normal;
+  }
+
+  /* Hairline frame with corner ticks (static version of CornerFramePanel) */
+  .hud-frame {
+    position: relative;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+  }
+
+  /* Reading width container */
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 sm:px-7 lg:px-10;
+  }
+
+  .text-glow-ember {
+    text-shadow: 0 0 18px rgba(255, 90, 54, 0.55);
+  }
+}
+
+@layer utilities {
+  .grayscale-portrait {
+    filter: grayscale(1) contrast(1.08) brightness(0.95);
+  }
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
